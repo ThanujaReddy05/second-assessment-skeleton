@@ -3,10 +3,19 @@
  */
 package com.cooksys.Twitter.entity;
 
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderColumn;
 
 /**
  * @author ftd-11
@@ -14,25 +23,77 @@ import javax.persistence.Id;
  */
 @Entity
 public class Tweet {
-
+	
+	
+	
 	@Id
 	@GeneratedValue
 	private Integer id;
 	
+	@ManyToOne
 	private TweetUser author;
-	private String posted;
+	private Timestamp posted;
 	
 	@Column(nullable = true)
 	private String content;
 	
-	@Column(nullable = true)
+	@ManyToOne
 	private Tweet inReplyTo;
 	
-	@Column(nullable = true)
+	@ManyToOne	
 	private Tweet repostOf;
+	
+	@Column(nullable = false)
+	private boolean active;
+
+		
+	
+	@ManyToMany(mappedBy = "tweets")
+	private Set<Tag> hashtag;
+	
+	
+	@ManyToMany(mappedBy = "likedTweets")
+	private Set<TweetUser> likes;
+	
+	@ManyToMany(mappedBy = "mentions")
+	private Set<TweetUser> mentionedUsers;
+	
+	
+	@OneToMany(mappedBy = "inReplyTo")
+	private List<Tweet> replies;
+	
+	
+	@OneToMany(mappedBy = "repostOf")
+	private List<Tweet> reposts;
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
-	private Credential credential;
+
+	/**
+	 * @return the hashtag
+	 */
+	public Set<Tag> getHashtag() {
+		return hashtag;
+	}
+
+	/**
+	 * @param hashtag the hashtag to set
+	 */
+	public void setHashtag(Set<Tag> hashtag) {
+		this.hashtag = hashtag;
+	}
+
+	
+	
+	
 	/**
 	 * @return the id
 	 */
@@ -64,14 +125,14 @@ public class Tweet {
 	/**
 	 * @return the posted
 	 */
-	public String getPosted() {
+	public Timestamp getPosted() {
 		return posted;
 	}
 
 	/**
 	 * @param posted the posted to set
 	 */
-	public void setPosted(String posted) {
+	public void setPosted(Timestamp posted) {
 		this.posted = posted;
 	}
 
@@ -115,6 +176,79 @@ public class Tweet {
 	 */
 	public void setRepostOf(Tweet repostOf) {
 		this.repostOf = repostOf;
+	}
+	
+	
+	
+
+	/**
+	 * @return the active
+	 */
+	public boolean isActive() {
+		return active;
+	}
+
+	/**
+	 * @param active the active to set
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	/**
+	 * @return the likes
+	 */
+	public Set<TweetUser> getLikes() {
+		return likes;
+	}
+
+	/**
+	 * @param likes the likes to set
+	 */
+	public void setLikes(Set<TweetUser> likes) {
+		this.likes = likes;
+	}
+
+	/**
+	 * @return the mentionedUsers
+	 */
+	public Set<TweetUser> getMentionedUsers() {
+		return mentionedUsers;
+	}
+
+	/**
+	 * @param mentionedUsers the mentionedUsers to set
+	 */
+	public void setMentionedUsers(Set<TweetUser> mentionedUsers) {
+		this.mentionedUsers = mentionedUsers;
+	}
+
+	/**
+	 * @return the replies
+	 */
+	public List<Tweet> getReplies() {
+		return replies;
+	}
+
+	/**
+	 * @param replies the replies to set
+	 */
+	public void setReplies(List<Tweet> replies) {
+		this.replies = replies;
+	}
+
+	/**
+	 * @return the reposts
+	 */
+	public List<Tweet> getReposts() {
+		return reposts;
+	}
+
+	/**
+	 * @param reposts the reposts to set
+	 */
+	public void setReposts(List<Tweet> reposts) {
+		this.reposts = reposts;
 	}
 
 	/* (non-Javadoc)

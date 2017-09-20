@@ -3,6 +3,7 @@
  */
 package com.cooksys.Twitter.service;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -64,7 +65,10 @@ public class TweetUserService {
 		//Add as new user to the table
 		else
 		{
-			String timestamp = new SimpleDateFormat("MM.dd.yyyy  HH.mm.ss").format(new Date());
+//			String timestamp = new SimpleDateFormat("MM.dd.yyyy  HH.mm.ss").format(new Date());
+			 Date date = new Date();
+			Timestamp timestamp = new Timestamp(date.getTime());
+			
 			newUser.setJoined(timestamp);
 			newUser.setActive(true);
 			newUser.getCredential().setActive(true);

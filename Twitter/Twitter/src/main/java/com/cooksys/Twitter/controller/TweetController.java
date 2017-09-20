@@ -12,7 +12,6 @@ import com.cooksys.Twitter.dto.ContextDto;
 import com.cooksys.Twitter.dto.CredentialDto;
 import com.cooksys.Twitter.dto.TweetDto;
 import com.cooksys.Twitter.dto.TweetUserDto;
-import com.cooksys.Twitter.dto.TweetsDto;
 import com.cooksys.Twitter.dto.tagDto;
 import com.cooksys.Twitter.mapper.TweetMapper;
 import com.cooksys.Twitter.service.TweetService;
@@ -23,19 +22,19 @@ import com.cooksys.Twitter.service.TagService;
 public class TweetController {
 
 	private TweetService tweetService;
-	private TweetMapper tweetMapper;
-	private TagService tagService;
-	private TweetController contextService;
+//	private TweetMapper tweetMapper;
+//	private TagService tagService;
+//	private TweetController contextService;
 
-	public TweetController(TweetService tweetService, TweetMapper tweetMapper, TagService tagService,TweetController contextService) {
+	public TweetController(TweetService tweetService) {
 	this.tweetService = tweetService;
-	this.tweetMapper = tweetMapper;
-	this.tagService = tagService;
-	this.contextService = contextService;
+//	this.tweetMapper = tweetMapper;
+//	this.tagService = tagService;
+//	this.contextService = contextService;
 	}
 	
 	@GetMapping
-	public TweetsDto[] GetAllTweets(){
+	public TweetDto[] GetAllTweets(){
 		return tweetService.GetTweets();
 	}
 	
@@ -81,7 +80,7 @@ public class TweetController {
 	
 	@GetMapping("tweets/{id}/context")
 	public ContextDto getContext(@PathVariable Integer id){
-		return contextService.getContext(id);
+		return tweetService.getContext(id);
 	}
 	
 	@GetMapping("tweets/{id}/replies")

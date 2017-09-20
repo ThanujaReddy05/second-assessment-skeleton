@@ -4,11 +4,13 @@
 package com.cooksys.Twitter.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  * @author ftd-11
@@ -27,6 +29,52 @@ public class Tag {
 	@Column(updatable = false)
 	private Timestamp firstUsed;
 	private Timestamp lastUsed;
+	
+	
+	@ManyToMany
+	private List<Tweet> tweets;
+	
+	
+	
+	
+	
+	public Tag() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	
+	
+	
+	
+	public Tag(String label, Timestamp firstUsed, Timestamp lastUsed, List<Tweet> tweets) {
+		super();
+		this.label = label;
+		this.firstUsed = firstUsed;
+		this.lastUsed = lastUsed;
+		this.tweets = tweets;
+	}
+
+
+
+
+
+
+
+	/**
+	 * @return the tweet
+	 */
+	public List<Tweet> getTweets() {
+		return tweets;
+	}
+	/**
+	 * @param tweet the tweet to set
+	 */
+	public void setTweet(List<Tweet> tweets) {
+		this.tweets = tweets;
+	}
 	/**
 	 * @return the id
 	 */

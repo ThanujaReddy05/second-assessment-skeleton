@@ -8,6 +8,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  * @author ftd-11
@@ -20,8 +22,11 @@ public class Credential {
 	@GeneratedValue
 	private Integer id;
 	
+	
 	private String username;
 	private String password;
+	
+	
 	
 	@Column(nullable = false)
 	private boolean active;
@@ -73,6 +78,10 @@ public class Credential {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	/**
+	 * @return the user
+	 */
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */

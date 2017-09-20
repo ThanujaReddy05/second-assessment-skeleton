@@ -4,12 +4,16 @@
 package com.cooksys.Twitter.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -23,21 +27,111 @@ public class TweetUser {
 	@GeneratedValue
 	private Integer id;
 	
-	@Column(unique = true )
+	@Column(unique = true, nullable = false )
 	private String username;
 	
 	@Embedded
 	private Profile profile;
 	
 	@Column(updatable = false)
-	private String joined;
+	private Timestamp joined;
 	
 	@Column(nullable = false)
 	private boolean active;
 	
-
+	@OneToOne
 	private Credential credential; 
 	
+	
+	@OneToMany(mappedBy = "author")
+	private List<Tweet> tweet;
+	
+	@ManyToMany
+	private Set<TweetUser> following;
+	
+	@ManyToMany
+	private Set<TweetUser> followers;
+	
+	@ManyToMany
+	private Set<Tweet> likedTweets;
+	
+	@ManyToMany
+	private Set<Tweet> mentions;
+	
+	
+	
+	
+	
+	/**
+	 * @return the following
+	 */
+	public Set<TweetUser> getFollowing() {
+		return following;
+	}
+
+	/**
+	 * @param following the following to set
+	 */
+	public void setFollowing(Set<TweetUser> following) {
+		this.following = following;
+	}
+
+	/**
+	 * @return the followers
+	 */
+	public Set<TweetUser> getFollowers() {
+		return followers;
+	}
+
+	/**
+	 * @param followers the followers to set
+	 */
+	public void setFollowers(Set<TweetUser> followers) {
+		this.followers = followers;
+	}
+
+	/**
+	 * @return the likedTweets
+	 */
+	public Set<Tweet> getLikedTweets() {
+		return likedTweets;
+	}
+
+	/**
+	 * @param likedTweets the likedTweets to set
+	 */
+	public void setLikedTweets(Set<Tweet> likedTweets) {
+		this.likedTweets = likedTweets;
+	}
+
+	/**
+	 * @return the mentions
+	 */
+	public Set<Tweet> getMentions() {
+		return mentions;
+	}
+
+	/**
+	 * @param mentions the mentions to set
+	 */
+	public void setMentions(Set<Tweet> mentions) {
+		this.mentions = mentions;
+	}
+
+	/**
+	 * @return the tweet
+	 */
+	public List<Tweet> getTweet() {
+		return tweet;
+	}
+
+	/**
+	 * @param tweet the tweet to set
+	 */
+	public void setTweet(List<Tweet> tweet) {
+		this.tweet = tweet;
+	}
+
 	/**
 	 * @return the active
 	 */
@@ -83,14 +177,14 @@ public class TweetUser {
 	/**
 	 * @return the joined
 	 */
-	public String getJoined() {
+	public Timestamp getJoined() {
 		return joined;
 	}
 
 	/**
 	 * @param timestamp the joined to set
 	 */
-	public void setJoined(String timestamp) {
+	public void setJoined(Timestamp timestamp) {
 		this.joined = timestamp;
 	}
 

@@ -1,13 +1,17 @@
 package com.cooksys.Twitter.service;
 
+import org.springframework.stereotype.Service;
+
+import com.cooksys.Twitter.dto.ContextDto;
 import com.cooksys.Twitter.dto.CredentialDto;
 import com.cooksys.Twitter.dto.TweetDto;
 import com.cooksys.Twitter.dto.TweetUserDto;
-import com.cooksys.Twitter.dto.TweetsDto;
 
+
+@Service
 public class TweetService {
 
-	public TweetsDto[] GetTweets() {
+	public TweetDto[] GetTweets() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -58,6 +62,11 @@ public class TweetService {
 	}
 
 	public TweetUserDto[] getMentions(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ContextDto getContext(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
