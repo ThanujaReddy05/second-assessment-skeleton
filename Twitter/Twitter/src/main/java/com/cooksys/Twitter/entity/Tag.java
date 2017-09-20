@@ -3,6 +3,8 @@
  */
 package com.cooksys.Twitter.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,8 +25,8 @@ public class Tag {
 	private String label;
 	
 	@Column(updatable = false)
-	private String firstUsed;
-	private String lastUsed;
+	private Timestamp firstUsed;
+	private Timestamp lastUsed;
 	/**
 	 * @return the id
 	 */
@@ -52,25 +54,25 @@ public class Tag {
 	/**
 	 * @return the firstUsed
 	 */
-	public String getFirstUsed() {
+	public Timestamp getFirstUsed() {
 		return firstUsed;
 	}
 	/**
 	 * @param firstUsed the firstUsed to set
 	 */
-	public void setFirstUsed(String firstUsed) {
+	public void setFirstUsed(Timestamp firstUsed) {
 		this.firstUsed = firstUsed;
 	}
 	/**
 	 * @return the lastUsed
 	 */
-	public String getLastUsed() {
+	public Timestamp getLastUsed() {
 		return lastUsed;
 	}
 	/**
 	 * @param lastUsed the lastUsed to set
 	 */
-	public void setLastUsed(String lastUsed) {
+	public void setLastUsed(Timestamp lastUsed) {
 		this.lastUsed = lastUsed;
 	}
 	/* (non-Javadoc)

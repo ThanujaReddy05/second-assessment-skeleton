@@ -1,11 +1,17 @@
 package com.cooksys.Twitter.mapper;
 
-import com.cooksys.Twitter.dto.UserDto;
-import com.cooksys.Twitter.entity.User;
+import java.util.List;
 
-public interface UserMapper {
+import org.mapstruct.Mapper;
 
-	public UserDto toUserDto(User user);
-	public User toUser(UserDto userDto);
+import com.cooksys.Twitter.dto.TweetUserDto;
+import com.cooksys.Twitter.entity.TweetUser;
+
+@Mapper(componentModel="spring")
+public interface TweetUserMapper {
+
+	public TweetUserDto toUserDto(TweetUser user);
+	public TweetUser toUser(TweetUserDto userDto);
+	public List<TweetUserDto> toDtos(List<TweetUser> userList);
 
 }

@@ -3,18 +3,21 @@
  */
 package com.cooksys.Twitter.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  * @author ftd-11
  *
  */
 @Entity
-public class User {
+public class TweetUser {
 
 	@Id
 	@GeneratedValue
@@ -24,11 +27,46 @@ public class User {
 	private String username;
 	
 	@Embedded
+//	@OneToOne
 	private Profile profile;
 	
 	@Column(updatable = false)
 	private String joined;
 	
+	@Column(nullable = false)
+	private boolean active;
+	
+//	@OneToOne
+	private Credential credential; 
+	
+	/**
+	 * @return the active
+	 */
+	public boolean isActive() {
+		return active;
+	}
+
+	/**
+	 * @return the credential
+	 */
+	public Credential getCredential() {
+		return credential;
+	}
+
+	/**
+	 * @param credential the credential to set
+	 */
+	public void setCredential(Credential credential) {
+		this.credential = credential;
+	}
+
+	/**
+	 * @param active the active to set
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	/**
 	 * @return the profile
 	 */
@@ -51,10 +89,10 @@ public class User {
 	}
 
 	/**
-	 * @param joined the joined to set
+	 * @param timestamp the joined to set
 	 */
-	public void setJoined(String joined) {
-		this.joined = joined;
+	public void setJoined(String timestamp) {
+		this.joined = timestamp;
 	}
 
 	
@@ -109,7 +147,7 @@ public class User {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		TweetUser other = (TweetUser) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

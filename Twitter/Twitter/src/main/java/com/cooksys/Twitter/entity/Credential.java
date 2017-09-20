@@ -3,6 +3,7 @@
  */
 package com.cooksys.Twitter.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,6 +21,21 @@ public class Credential {
 	
 	private String username;
 	private String password;
+	
+	@Column(nullable = false)
+	private boolean active;
+	/**
+	 * @return the active
+	 */
+	public boolean isActive() {
+		return active;
+	}
+	/**
+	 * @param active the active to set
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 	/**
 	 * @return the id
 	 */
