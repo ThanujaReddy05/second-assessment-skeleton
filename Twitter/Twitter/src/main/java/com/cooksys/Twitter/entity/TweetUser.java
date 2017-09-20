@@ -27,7 +27,6 @@ public class TweetUser {
 	private String username;
 	
 	@Embedded
-//	@OneToOne
 	private Profile profile;
 	
 	@Column(updatable = false)
@@ -36,7 +35,7 @@ public class TweetUser {
 	@Column(nullable = false)
 	private boolean active;
 	
-//	@OneToOne
+
 	private Credential credential; 
 	
 	/**

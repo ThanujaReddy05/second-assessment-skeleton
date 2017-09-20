@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cooksys.Twitter.dto.CredentialsDto;
+import com.cooksys.Twitter.dto.CredentialDto;
 import com.cooksys.Twitter.dto.TweetDto;
 import com.cooksys.Twitter.dto.TweetUserDto;
 import com.cooksys.Twitter.mapper.TweetUserMapper;
@@ -63,17 +63,17 @@ public class TweetUserController {
 	}
 	
 	@DeleteMapping("users/{username}")
-	public TweetUserDto deleteUser(@PathVariable String userDto,@RequestBody CredentialsDto credentialDto){
+	public TweetUserDto deleteUser(@PathVariable String userDto,@RequestBody CredentialDto credentialDto){
 		return userService.delete(userDto);
 	}
 	
 	@PostMapping("users/{username}/follow")
-	public void createFollowing(@PathVariable String username, @RequestBody CredentialsDto credentialDto){
+	public void createFollowing(@PathVariable String username, @RequestBody CredentialDto credentialDto){
 		 userService.createFollowing(username);
 	}
 	
 	@PostMapping("users/{username}/unfollow")
-	public void unFollow(@PathVariable String username, @RequestBody CredentialsDto credentialDto){
+	public void unFollow(@PathVariable String username, @RequestBody CredentialDto credentialDto){
 		 userService.deleteFollowing(username);
 	}
 	
