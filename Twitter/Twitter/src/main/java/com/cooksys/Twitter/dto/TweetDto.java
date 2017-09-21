@@ -2,7 +2,6 @@ package com.cooksys.Twitter.dto;
 
 import java.sql.Timestamp;
 
-import javax.persistence.Column;
 
 import com.cooksys.Twitter.entity.Credential;
 import com.cooksys.Twitter.entity.Tweet;

@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -39,7 +40,7 @@ public class TweetUser {
 	@Column(nullable = false)
 	private boolean active;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	private Credential credential; 
 	
 	

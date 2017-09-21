@@ -15,6 +15,7 @@ public interface CredentilasRepository extends JpaRepository<Credential, Integer
 	TweetUser findByUsernameAndPassword(String username, String password);
 	
 	TweetUser findByUsernameAndPasswordAndActiveFalse(String username, String password);
-	
+		
+	TweetUser findByUsernameAndPasswordAndActiveTrue(String username, String password);
 
 }

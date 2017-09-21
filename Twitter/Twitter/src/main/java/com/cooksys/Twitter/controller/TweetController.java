@@ -1,5 +1,7 @@
 package com.cooksys.Twitter.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +14,7 @@ import com.cooksys.Twitter.dto.ContextDto;
 import com.cooksys.Twitter.dto.CredentialDto;
 import com.cooksys.Twitter.dto.TweetDto;
 import com.cooksys.Twitter.dto.TweetUserDto;
-import com.cooksys.Twitter.dto.tagDto;
+import com.cooksys.Twitter.dto.TagDto;
 import com.cooksys.Twitter.mapper.TweetMapper;
 import com.cooksys.Twitter.service.TweetService;
 import com.cooksys.Twitter.service.TagService;
@@ -34,7 +36,7 @@ public class TweetController {
 	}
 	
 	@GetMapping
-	public TweetDto[] GetAllTweets(){
+	public List<TweetDto> GetAllTweets(){
 		return tweetService.GetTweets();
 	}
 	
@@ -49,13 +51,13 @@ public class TweetController {
 	}
 	
 	@DeleteMapping("tweets/{id}")
-	public TweetDto deleteTweet(@PathVariable Integer id){
-		return tweetService.deleteTweet(id);
+	public TweetDto deleteTweet(@PathVariable Integer id,@RequestBody CredentialDto credentialDto ){
+		return tweetService.deleteTweet(id,credentialDto);
 	}
 	
 	@PostMapping("tweets/{id}/like")
 	public void tweetLikes(@PathVariable Integer id, @RequestBody CredentialDto credentialDto){
-		tweetService.tweetLike(credentialDto);
+		tweetService.tweetLike(id,credentialDto);
 	}
 	
 	@PostMapping("tweets/{id}/reply")
@@ -69,8 +71,8 @@ public class TweetController {
 	}
 	
 	@GetMapping("tweets/{id}/tags")
-	public tagDto[] getHashtags(@PathVariable Integer id){
-		return TagService.getTags(id);
+	public List<TagDto> getHashtags(@PathVariable Integer id){
+		return tweetService.getTags(id);
 	}
 	
 	@GetMapping("tweets/{id}/like")

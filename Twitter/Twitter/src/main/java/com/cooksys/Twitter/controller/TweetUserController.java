@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.Twitter.dto.CredentialDto;
 import com.cooksys.Twitter.dto.TweetDto;
+import com.cooksys.Twitter.dto.TweetUserDisplayDto;
 import com.cooksys.Twitter.dto.TweetUserDto;
 import com.cooksys.Twitter.mapper.TweetUserMapper;
 import com.cooksys.Twitter.service.TweetUserService;
@@ -58,35 +59,35 @@ public class TweetUserController {
 	
 	
 	@PatchMapping("users/{username}")
-	public TweetUserDto updateUser(@PathVariable String usename,@RequestBody TweetUserDto userDto){
+	public TweetUserDto updateUser(@PathVariable String username,@RequestBody TweetUserDto userDto){
 		return userService.editUser(userDto);
 	}
 	
 	@DeleteMapping("users/{username}")
-	public TweetUserDto deleteUser(@PathVariable String userDto,@RequestBody CredentialDto credentialDto){
-		return userService.delete(userDto);
+	public TweetUserDto deleteUser(@PathVariable String username,@RequestBody CredentialDto credentialDto){
+		return userService.delete(username,credentialDto );
 	}
 	
 	@PostMapping("users/{username}/follow")
 	public void createFollowing(@PathVariable String username, @RequestBody CredentialDto credentialDto){
-		 userService.createFollowing(username);
+		 userService.createFollowing(username,credentialDto);
 	}
 	
 	@PostMapping("users/{username}/unfollow")
 	public void unFollow(@PathVariable String username, @RequestBody CredentialDto credentialDto){
-		 userService.deleteFollowing(username);
+		 userService.deleteFollowing(username,credentialDto);
 	}
 	
 	@GetMapping("users/{username}/feed")
 	public List<TweetDto> getFeed(@PathVariable String username){
-		userService.getFeed(username);
-		return null;
+		return userService.getFeed(username);
+	 
 	}
 	
 	@GetMapping("user/{username}/tweets")
 	public List<TweetDto> getTweets(@PathVariable String username){
-		userService.getTweets(username);
-		return null;
+		return userService.getTweets(username);
+		
 	}
 	
 	
