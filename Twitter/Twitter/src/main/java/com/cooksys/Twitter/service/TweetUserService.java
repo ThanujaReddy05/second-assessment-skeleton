@@ -5,6 +5,9 @@ package com.cooksys.Twitter.service;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -44,9 +47,8 @@ public class TweetUserService {
 
 
 
-	public TweetUserService(TweetUserRepository userRepo, TweetUserMapper userMapper,CredentilasRepository credentialRepo) {
+	public TweetUserService(TweetUserRepository userRepo, CredentilasRepository credentialRepo) {
 		this.userRepo = userRepo;
-		this.userMapper = userMapper;
 		this.credentialRepo = credentialRepo;
 	}
 
@@ -81,12 +83,12 @@ public class TweetUserService {
 		{
 //			String timestamp = new SimpleDateFormat("MM.dd.yyyy  HH.mm.ss").format(new Date());
 			 Date date = new Date();
-			Timestamp timestamp = new Timestamp(date.getTime());
+//			Timestamp timestamp = new Timestamp(date.getTime());
 			
-			newUser.setJoined(timestamp);
+			newUser.setJoined(date.getTime());
 			newUser.setActive(true);
 			newUser.getCredential().setActive(true);
-			return userMapper.toUserDto(userRepo.save(userMapper.toUser(userDto)));
+			return userMapper.toUserDto(userRepo.saveAndFlush(userMapper.toUser(userDto)));
 //			return userDtoToDisplyDto(),null);
 		}
 	}
@@ -103,10 +105,13 @@ public class TweetUserService {
 
 	@Transactional
 	public TweetUserDto editUser(TweetUserDto userDto) {
-		TweetUser userToUpdate = userRepo.findByUsername(userDto.getCredential().getUsername());
+		
+		TweetUser userToUpdate = findUsernameInRepo(userDto.getCredential().getUsername());
+		
 		userToUpdate.setProfile(userDto.getProfile());
 		userToUpdate.setCredential(userDto.getCredential());
 		userToUpdate.setUsername(userDto.getUsername());
+		
 		return userMapper.toUserDto(userRepo.saveAndFlush(userToUpdate));
 			
 		
@@ -115,10 +120,13 @@ public class TweetUserService {
 
 
 	public TweetUserDto delete(String username, CredentialDto credentialDto) {
-		TweetUser user =  userRepo.findByUsername(username);
-		if(((user.getCredential().getUsername().equals(credentialDto.getUsername())) && (user.getCredential().getPassword().equals(credentialDto.getPassword())))){
+		TweetUser user =  findUsernameInRepo(username);
+		
+		if(user.getCredential().getUsername().equals(credentialDto.getUsername())){ 
+			if(user.getCredential().getPassword().equals(credentialDto.getPassword())){
 			user.setActive(false);
 			userRepo.saveAndFlush(user);
+			}
 		}
 		
 		return userMapper.toUserDto(user);
@@ -134,8 +142,8 @@ public class TweetUserService {
 
 
 	public void createFollowing(String username,CredentialDto credentialDto) {
-		TweetUser userToFollow = userRepo.findByUsername(credentialDto.getUsername());
-		TweetUser user = userRepo.findByUsername(username);
+		TweetUser userToFollow = findUsernameInRepo(credentialDto.getUsername());
+		TweetUser user = findUsernameInRepo(username);
 		
 		user.getFollowers().add(userToFollow);
 		userToFollow.getFollowing().add(user);
@@ -150,8 +158,8 @@ public class TweetUserService {
 
 
 	public void deleteFollowing(String username,CredentialDto credentialDto) {
-		TweetUser userToUnFollow = userRepo.findByUsername(credentialDto.getUsername());
-		TweetUser user = userRepo.findByUsername(username);
+		TweetUser userToUnFollow = findUsernameInRepo(credentialDto.getUsername());
+		TweetUser user = findUsernameInRepo(username);
 		
 		user.getFollowers().remove(userToUnFollow);
 		userToUnFollow.getFollowing().remove(user);
@@ -166,7 +174,34 @@ public class TweetUserService {
 
 
 	public List<TweetDto> getFeed(String username) {
-		return null;
+		
+		TweetUser user = findUsernameInRepo(username);
+		List<Tweet> feed = new ArrayList();
+		
+		List<Tweet> userTweets = user.getTweet();
+		for(Tweet tweet : userTweets){
+			feed.add(tweet);
+		}
+		
+		
+		Set<TweetUser> followings = user.getFollowing();
+		for(TweetUser tempUser : followings){
+			List<Tweet> followersTweets = tempUser.getTweet();
+			for(Tweet tweet : followersTweets){
+				feed.add(tweet);
+			}
+		}
+		
+		Comparator<Tweet> comparator = new Comparator<Tweet>(){
+			@Override
+			public int compare(Tweet t1, Tweet t2){
+				return (int) (t2.getPosted() - t1.getPosted());
+			}
+		};
+		
+		Collections.sort(feed, comparator);
+		
+		return tweetMapper.toTweetDtos(feed);
 		
 	}
 
@@ -175,7 +210,7 @@ public class TweetUserService {
 
 
 	public Set<TweetUserDto> getfollowers(String username) {
-		return userMapper.toSetDtos(userRepo.findByUsername(username).getFollowers());
+		return userMapper.toSetDtos(findUsernameInRepo(username).getFollowers());
 		
 	}
 
@@ -184,7 +219,7 @@ public class TweetUserService {
 
 
 	public Set<TweetUserDto> getfollowing(String username) {
-		return userMapper.toSetDtos(userRepo.findByUsername(username).getFollowing());
+		return userMapper.toSetDtos(findUsernameInRepo(username).getFollowing());
 		
 	}
 
@@ -193,7 +228,8 @@ public class TweetUserService {
 
 
 	public List<TweetDto> getTweets(String username) {
-		List<Tweet> tweets = userRepo.findByUsername(username).getTweet();
+		List<Tweet> tweets = findUsernameInRepo(username).getTweet();
+		Collections.reverse(tweets);
 		return tweetMapper.toTweetDtos(tweets);
 		
 	}
@@ -203,8 +239,13 @@ public class TweetUserService {
 
 
 	public Set<TweetDto> getMentions(String username) {
-		return tweetMapper.toSetDto(userRepo.findByUsername(username).getMentions());
+		return tweetMapper.toSetDto(findUsernameInRepo(username).getMentions());
 		
+	}
+	
+	
+	public TweetUser findUsernameInRepo(String username){
+		return userRepo.findByUsername(username);
 	}
 
 	private List<TweetUserDisplayDto> userDtoToDisplyDtos(List<TweetUserDto> userDto){

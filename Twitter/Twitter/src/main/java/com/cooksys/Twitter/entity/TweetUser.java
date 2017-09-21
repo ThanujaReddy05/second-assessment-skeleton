@@ -35,14 +35,13 @@ public class TweetUser {
 	private Profile profile;
 	
 	@Column(updatable = false)
-	private Timestamp joined;
+	private Long joined;
 	
 	@Column(nullable = false)
 	private boolean active;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	private Credential credential; 
-	
+	private Credential credential; 	
 	
 	@OneToMany(mappedBy = "author")
 	private List<Tweet> tweet;
@@ -60,163 +59,96 @@ public class TweetUser {
 	private Set<Tweet> mentions;
 	
 	
-	
-	
-	
-	/**
-	 * @return the following
+	/*
+	 * Getters and Setters	
 	 */
-	public Set<TweetUser> getFollowing() {
-		return following;
-	}
 
-	/**
-	 * @param following the following to set
-	 */
-	public void setFollowing(Set<TweetUser> following) {
-		this.following = following;
-	}
-
-	/**
-	 * @return the followers
-	 */
-	public Set<TweetUser> getFollowers() {
-		return followers;
-	}
-
-	/**
-	 * @param followers the followers to set
-	 */
-	public void setFollowers(Set<TweetUser> followers) {
-		this.followers = followers;
-	}
-
-	/**
-	 * @return the likedTweets
-	 */
-	public Set<Tweet> getLikedTweets() {
-		return likedTweets;
-	}
-
-	/**
-	 * @param likedTweets the likedTweets to set
-	 */
-	public void setLikedTweets(Set<Tweet> likedTweets) {
-		this.likedTweets = likedTweets;
-	}
-
-	/**
-	 * @return the mentions
-	 */
-	public Set<Tweet> getMentions() {
-		return mentions;
-	}
-
-	/**
-	 * @param mentions the mentions to set
-	 */
-	public void setMentions(Set<Tweet> mentions) {
-		this.mentions = mentions;
-	}
-
-	/**
-	 * @return the tweet
-	 */
-	public List<Tweet> getTweet() {
-		return tweet;
-	}
-
-	/**
-	 * @param tweet the tweet to set
-	 */
-	public void setTweet(List<Tweet> tweet) {
-		this.tweet = tweet;
-	}
-
-	/**
-	 * @return the active
-	 */
-	public boolean isActive() {
-		return active;
-	}
-
-	/**
-	 * @return the credential
-	 */
-	public Credential getCredential() {
-		return credential;
-	}
-
-	/**
-	 * @param credential the credential to set
-	 */
-	public void setCredential(Credential credential) {
-		this.credential = credential;
-	}
-
-	/**
-	 * @param active the active to set
-	 */
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-	/**
-	 * @return the profile
-	 */
-	public Profile getProfile() {
-		return profile;
-	}
-
-	/**
-	 * @param profile the profile to set
-	 */
-	public void setProfile(Profile profile) {
-		this.profile = profile;
-	}
-
-	/**
-	 * @return the joined
-	 */
-	public Timestamp getJoined() {
-		return joined;
-	}
-
-	/**
-	 * @param timestamp the joined to set
-	 */
-	public void setJoined(Timestamp timestamp) {
-		this.joined = timestamp;
-	}
-
-	
-
-	/**
-	 * @return the id
-	 */
 	public Integer getId() {
 		return id;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return the username
-	 */
 	public String getUsername() {
 		return username;
 	}
 
-	/**
-	 * @param username the username to set
-	 */
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+
+	public Long getJoined() {
+		return joined;
+	}
+
+	public void setJoined(Long joined) {
+		this.joined = joined;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public Credential getCredential() {
+		return credential;
+	}
+
+	public void setCredential(Credential credential) {
+		this.credential = credential;
+	}
+
+	public List<Tweet> getTweet() {
+		return tweet;
+	}
+
+	public void setTweet(List<Tweet> tweet) {
+		this.tweet = tweet;
+	}
+
+	public Set<TweetUser> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(Set<TweetUser> following) {
+		this.following = following;
+	}
+
+	public Set<TweetUser> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(Set<TweetUser> followers) {
+		this.followers = followers;
+	}
+
+	public Set<Tweet> getLikedTweets() {
+		return likedTweets;
+	}
+
+	public void setLikedTweets(Set<Tweet> likedTweets) {
+		this.likedTweets = likedTweets;
+	}
+
+	public Set<Tweet> getMentions() {
+		return mentions;
+	}
+
+	public void setMentions(Set<Tweet> mentions) {
+		this.mentions = mentions;
 	}
 
 	/* (non-Javadoc)

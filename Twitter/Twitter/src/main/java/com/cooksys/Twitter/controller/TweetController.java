@@ -1,6 +1,7 @@
 package com.cooksys.Twitter.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,13 +63,13 @@ public class TweetController {
 	}
 	
 	@PostMapping("tweets/{id}/reply")
-	public TweetDto tweetReply(@PathVariable Integer id, @RequestBody TweetDto tweetDto){
-		return tweetService.tweetReply(tweetDto);
+	public TweetDto tweetReply(@PathVariable Integer id, @RequestBody TweetRequestDto tweetRequestDto){
+		return tweetService.tweetReply(id,tweetRequestDto);
 	}
 	
 	@PostMapping("tweets/{id}/repost")
 	public TweetDto tweetRepost(@PathVariable Integer id, @RequestBody CredentialDto credentialDto){
-		return tweetService.tweetReply(credentialDto);
+		return tweetService.tweetRepost(id,credentialDto);
 	}
 	
 	@GetMapping("tweets/{id}/tags")
@@ -76,8 +77,8 @@ public class TweetController {
 		return tweetService.getTags(id);
 	}
 	
-	@GetMapping("tweets/{id}/like")
-	public TweetUserDto[] getLikedUsers(@PathVariable Integer id){
+	@GetMapping("tweets/{id}/likes")
+	public Set<TweetUserDto> getLikedUsers(@PathVariable Integer id){
 		return tweetService.getLikedUsers(id);
 	}
 	
@@ -87,19 +88,19 @@ public class TweetController {
 	}
 	
 	@GetMapping("tweets/{id}/replies")
-	public TweetDto[] getReplies(@PathVariable Integer id){
+	public List<TweetDto> getReplies(@PathVariable Integer id){
 		return tweetService.getTweetReplies(id);
 	}
 	
 	
 	@GetMapping("tweets/{id}/reposts")
-	public TweetDto[] getReposts(@PathVariable Integer id){
+	public  List<TweetDto> getReposts(@PathVariable Integer id){
 		return tweetService.getTweetRepost(id);
 	}
 	
 	
 	@GetMapping("tweets/{id}/mentions")
-	public TweetUserDto[] getUserMentions(@PathVariable Integer id){
+	public Set<TweetUserDto> getUserMentions(@PathVariable Integer id){
 		return tweetService.getMentions(id);
 	}
 	

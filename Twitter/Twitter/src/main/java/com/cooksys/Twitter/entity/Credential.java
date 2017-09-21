@@ -11,76 +11,47 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-/**
- * @author ftd-11
- *
- */
 @Entity
 public class Credential {
 
 	@Id
 	@GeneratedValue
-	private Integer id;
-	
-	
+	private Integer id;	
 	private String username;
 	private String password;
 	
-	
-	
 	@Column(nullable = false)
 	private boolean active;
-	/**
-	 * @return the active
+		
+	/*
+	 * Getters and Setters
 	 */
-	public boolean isActive() {
-		return active;
-	}
-	/**
-	 * @param active the active to set
-	 */
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-	/**
-	 * @return the id
-	 */
+	
 	public Integer getId() {
 		return id;
 	}
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	/**
-	 * @return the username
-	 */
 	public String getUsername() {
 		return username;
 	}
-	/**
-	 * @param username the username to set
-	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	/**
-	 * @return the password
-	 */
 	public String getPassword() {
 		return password;
 	}
-	/**
-	 * @param password the password to set
-	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	/**
-	 * @return the user
-	 */
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -92,6 +63,7 @@ public class Credential {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -110,10 +82,5 @@ public class Credential {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-	
-	
-	
-	
-	
+	}	
 }

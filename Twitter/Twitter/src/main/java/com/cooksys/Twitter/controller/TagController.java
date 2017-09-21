@@ -13,12 +13,12 @@ import com.cooksys.Twitter.entity.Tag;
 import com.cooksys.Twitter.service.TagService;
 
 @RestController
-@RequestMapping("tag")
-public class tagController {
+@RequestMapping("tags")
+public class TagController {
 
 	private TagService tagService;
 
-	public tagController(TagService tagService) {
+	public TagController(TagService tagService) {
 		this.tagService = tagService;
 	}
 	
@@ -30,7 +30,7 @@ public class tagController {
 	
 	
 	@GetMapping("tags/{label}")
-	public List<TagDto> getTaggedTweets(@PathVariable String label){
+	public List<TweetDto> getTaggedTweets(@PathVariable String label){
 		return tagService.getTaggedTweets(label);
 	}
 }

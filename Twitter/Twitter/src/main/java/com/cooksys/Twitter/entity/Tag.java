@@ -27,29 +27,19 @@ public class Tag {
 	private String label;
 	
 	@Column(updatable = false)
-	private Timestamp firstUsed;
-	private Timestamp lastUsed;
+	private Long firstUsed;
 	
+	private Long lastUsed;	
 	
 	@ManyToMany
 	private List<Tweet> tweets;
 	
 	
-	
-	
-	
 	public Tag() {
-		super();
-		// TODO Auto-generated constructor stub
+		
 	}
-	
-	
-	
-	
-	
-	
-	
-	public Tag(String label, Timestamp firstUsed, Timestamp lastUsed, List<Tweet> tweets) {
+			
+	public Tag(String label, Long firstUsed, Long lastUsed, List<Tweet> tweets) {
 		super();
 		this.label = label;
 		this.firstUsed = firstUsed;
@@ -58,71 +48,46 @@ public class Tag {
 	}
 
 
-
-
-
-
-
-	/**
-	 * @return the tweet
-	 */
-	public List<Tweet> getTweets() {
-		return tweets;
-	}
-	/**
-	 * @param tweet the tweet to set
-	 */
-	public void setTweet(List<Tweet> tweets) {
-		this.tweets = tweets;
-	}
-	/**
-	 * @return the id
-	 */
 	public Integer getId() {
 		return id;
 	}
-	/**
-	 * @param id the id to set
-	 */
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	/**
-	 * @return the label
-	 */
+
 	public String getLabel() {
 		return label;
 	}
-	/**
-	 * @param label the label to set
-	 */
+
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	/**
-	 * @return the firstUsed
-	 */
-	public Timestamp getFirstUsed() {
+
+	public Long getFirstUsed() {
 		return firstUsed;
 	}
-	/**
-	 * @param firstUsed the firstUsed to set
-	 */
-	public void setFirstUsed(Timestamp firstUsed) {
+
+	public void setFirstUsed(Long firstUsed) {
 		this.firstUsed = firstUsed;
 	}
-	/**
-	 * @return the lastUsed
-	 */
-	public Timestamp getLastUsed() {
+
+	public Long getLastUsed() {
 		return lastUsed;
 	}
-	/**
-	 * @param lastUsed the lastUsed to set
-	 */
-	public void setLastUsed(Timestamp lastUsed) {
+
+	public void setLastUsed(Long lastUsed) {
 		this.lastUsed = lastUsed;
 	}
+
+	public List<Tweet> getTweets() {
+		return tweets;
+	}
+
+	public void setTweets(List<Tweet> tweets) {
+		this.tweets = tweets;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -133,6 +98,7 @@ public class Tag {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -152,7 +118,5 @@ public class Tag {
 			return false;
 		return true;
 	}
-	
-	
-	
+		
 }
