@@ -12,10 +12,10 @@ import com.cooksys.Twitter.entity.TweetUser;
 
 public interface CredentilasRepository extends JpaRepository<Credential, Integer> {
 	
-	TweetUser findByUsernameAndPassword(String username, String password);
+	public TweetUser findByUsernameAndPassword(String username, String password);
 	
-	TweetUser findByUsernameAndPasswordAndActiveFalse(String username, String password);
+	public TweetUser findByUsernameAndPasswordAndActiveFalse(String username, String password);
 		
-	TweetUser findByUsernameAndPasswordAndActiveTrue(String username, String password);
+	public TweetUser findByUsernameAndPasswordAndActiveTrue(String username, String password);
 
 }

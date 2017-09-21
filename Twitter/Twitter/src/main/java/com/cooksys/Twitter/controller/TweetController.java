@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cooksys.Twitter.dto.ContextDto;
 import com.cooksys.Twitter.dto.CredentialDto;
 import com.cooksys.Twitter.dto.TweetDto;
+import com.cooksys.Twitter.dto.TweetRequestDto;
 import com.cooksys.Twitter.dto.TweetUserDto;
 import com.cooksys.Twitter.dto.TagDto;
 import com.cooksys.Twitter.mapper.TweetMapper;
@@ -41,8 +42,8 @@ public class TweetController {
 	}
 	
 	@PostMapping
-	public TweetDto postTweet(@RequestBody TweetDto tweetDto){
-		return tweetService.postNewTweet(tweetDto);
+	public TweetDto postTweet(@RequestBody TweetRequestDto tweetRequestDto){
+		return tweetService.postNewTweet(tweetRequestDto);
 	}
 	
 	@GetMapping("tweets/{id}")

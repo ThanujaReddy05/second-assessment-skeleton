@@ -1,5 +1,7 @@
 package com.cooksys.Twitter.service;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,10 +12,13 @@ import com.cooksys.Twitter.dto.ContextDto;
 import com.cooksys.Twitter.dto.CredentialDto;
 import com.cooksys.Twitter.dto.TagDto;
 import com.cooksys.Twitter.dto.TweetDto;
+import com.cooksys.Twitter.dto.TweetRequestDto;
 import com.cooksys.Twitter.dto.TweetUserDto;
 import com.cooksys.Twitter.entity.Tweet;
+import com.cooksys.Twitter.entity.TweetRequest;
 import com.cooksys.Twitter.entity.TweetUser;
 import com.cooksys.Twitter.mapper.TweetMapper;
+import com.cooksys.Twitter.mapper.TweetRequestMapper;
 import com.cooksys.Twitter.mapper.TweetUserMapper;
 import com.cooksys.Twitter.repository.CredentilasRepository;
 import com.cooksys.Twitter.repository.TagRepository;
@@ -28,9 +33,11 @@ public class TweetService {
 	
 	private TweetRepository tweetRepo;
 	private TweetMapper tweetMapper;
+	private TweetRequestMapper tweetRequestMapper;
 	private TweetUserRepository userRepo;
 	private TagRepository tagRepo;
 	private CredentilasRepository credentilRepo;
+	
 	
 
 	public TweetService(TweetRepository tweetRepo, CredentilasRepository credentilRepo, TagRepository tagRepo) {
@@ -43,9 +50,24 @@ public class TweetService {
 		return tweetMapper.toTweetDtos(tweetRepo.findAll());
 	}
 
-	public TweetDto postNewTweet(TweetDto tweetDto) {
-		// TODO Auto-generated method stub
+	public TweetDto postNewTweet(TweetRequestDto tweetRequestDto) {
+		Tweet simpleTweet = null;
+//		TweetRequest tweetToAdd = tweetRequestMapper.toTweetRequest(tweetRequestDto);
+		TweetUser author = (TweetUser)credentilRepo.findByUsernameAndPasswordAndActiveTrue(tweetRequestDto.getCredential().getUsername(), tweetRequestDto.getCredential().getPassword());
+		
+		if(author != null){		
+			simpleTweet.setContent(tweetRequestDto.getContent());
+			simpleTweet.setAuthor(author);
+			simpleTweet.setActive(true);
+		
+			Date date = new Date(0);
+			Timestamp timestamp = new Timestamp(date.getTime());
+			simpleTweet.setPosted(timestamp);
+			return tweetMapper.toTweetDto(tweetRepo.saveAndFlush(simpleTweet));
+		}
+		
 		return null;
+		
 	}
 
 	public TweetDto getTweet(Integer id) {
