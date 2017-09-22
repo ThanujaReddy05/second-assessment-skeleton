@@ -52,11 +52,7 @@ public class TweetUserService {
 
 	//Get all active users
 	public List<TweetUserDto> getUsers() {
-//		List<TweetUser> activeUsers = new ArrayList();
-//		userRepo.findAll().forEach(user -> {
-//			if(user.isActive())
-//				activeUsers.add(user);
-//		});
+
 		return userMapper.toDtos(userRepo.findAll());
 
 	}
