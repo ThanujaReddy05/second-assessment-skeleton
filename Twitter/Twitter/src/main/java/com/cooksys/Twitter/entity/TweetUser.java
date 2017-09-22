@@ -17,6 +17,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author ftd-11
  *
@@ -119,6 +121,7 @@ public class TweetUser {
 		this.tweet = tweet;
 	}
 
+	@JsonIgnore
 	public Set<TweetUser> getFollowing() {
 		return following;
 	}
@@ -127,6 +130,7 @@ public class TweetUser {
 		this.following = following;
 	}
 
+	@JsonIgnore
 	public Set<TweetUser> getFollowers() {
 		return followers;
 	}
@@ -135,6 +139,7 @@ public class TweetUser {
 		this.followers = followers;
 	}
 
+	@JsonIgnore
 	public Set<Tweet> getLikedTweets() {
 		return likedTweets;
 	}
@@ -143,6 +148,7 @@ public class TweetUser {
 		this.likedTweets = likedTweets;
 	}
 
+	@JsonIgnore
 	public Set<Tweet> getMentions() {
 		return mentions;
 	}

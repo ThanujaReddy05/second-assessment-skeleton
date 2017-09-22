@@ -5,6 +5,7 @@ package com.cooksys.Twitter.entity;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,19 +33,19 @@ public class Tag {
 	private Long lastUsed;	
 	
 	@ManyToMany
-	private List<Tweet> tweets;
+	private Set<Tweet> tweets;
 	
 	
 	public Tag() {
 		
 	}
 			
-	public Tag(String label, Long firstUsed, Long lastUsed, List<Tweet> tweets) {
+	public Tag(String label, Long firstUsed, Long lastUsed, Set<Tweet> tweetList) {
 		super();
 		this.label = label;
 		this.firstUsed = firstUsed;
 		this.lastUsed = lastUsed;
-		this.tweets = tweets;
+		this.tweets = tweetList;
 	}
 
 
@@ -80,11 +81,11 @@ public class Tag {
 		this.lastUsed = lastUsed;
 	}
 
-	public List<Tweet> getTweets() {
+	public Set<Tweet> getTweets() {
 		return tweets;
 	}
 
-	public void setTweets(List<Tweet> tweets) {
+	public void setTweets(Set<Tweet> tweets) {
 		this.tweets = tweets;
 	}
 

@@ -3,6 +3,8 @@ package com.cooksys.Twitter.controller;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,14 +28,14 @@ import com.cooksys.Twitter.service.TagService;
 public class TweetController {
 
 	private TweetService tweetService;
-//	private TweetMapper tweetMapper;
-//	private TagService tagService;
+	private TweetMapper tweetMapper;
+	private TagService tagService;
 //	private TweetController contextService;
 
-	public TweetController(TweetService tweetService) {
+	public TweetController(TweetService tweetService,TweetMapper tweetMapper,TagService tagService) {
 	this.tweetService = tweetService;
-//	this.tweetMapper = tweetMapper;
-//	this.tagService = tagService;
+	this.tweetMapper = tweetMapper;
+	this.tagService = tagService;
 //	this.contextService = contextService;
 	}
 	
@@ -43,7 +45,7 @@ public class TweetController {
 	}
 	
 	@PostMapping
-	public TweetDto postTweet(@RequestBody TweetRequestDto tweetRequestDto){
+	public TweetDto postTweet(@RequestBody TweetRequestDto tweetRequestDto,HttpServletResponse response){
 		return tweetService.postNewTweet(tweetRequestDto);
 	}
 	
@@ -73,7 +75,7 @@ public class TweetController {
 	}
 	
 	@GetMapping("tweets/{id}/tags")
-	public List<TagDto> getHashtags(@PathVariable Integer id){
+	public Set<TagDto> getHashtags(@PathVariable Integer id){
 		return tweetService.getTags(id);
 	}
 	

@@ -47,7 +47,7 @@ public class TweetUserController {
 	}
 	
 	@PostMapping
-	public TweetUserDto addUser(@RequestBody TweetUserDto userDto, HttpServletResponse response ){
+	public TweetUserDto addUser(@RequestBody TweetUserDto userDto){
 		return userService.addUser(userDto);
 	}
 	

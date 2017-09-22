@@ -1,6 +1,7 @@
 package com.cooksys.Twitter.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -18,16 +19,17 @@ public class TagService {
 	private TagMapper tagMapper;
 	private TweetRepository tweetRepo;
 
-	public TagService(TagRepository tagRepo,TweetRepository tweetRepo) {
+	public TagService(TagRepository tagRepo,TweetRepository tweetRepo,TagMapper tagMapper) {
 		this.tagRepo = tagRepo;
 		this.tweetRepo = tweetRepo;
+		this.tagMapper = tagMapper;
 	}
 	public List<TagDto> getHashtags() {
 		return tagMapper.toTagDto(tagRepo.findAll());
 	}
 
-	public List<TweetDto> getTaggedTweets(String label) {
-		return tagMapper.toTagDto(tweetRepo.findByLabel(label));
+	public TagDto getTaggedTweets(String label) {
+		return tagMapper.toTagDto(tagRepo.findByLabel(label));
 	}
 
 }

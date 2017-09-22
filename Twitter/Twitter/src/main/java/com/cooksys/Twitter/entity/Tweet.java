@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Tweet {	
@@ -64,7 +66,8 @@ public class Tweet {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
+	@JsonIgnore
 	public TweetUser getAuthor() {
 		return author;
 	}
@@ -97,6 +100,7 @@ public class Tweet {
 		this.active = active;
 	}
 
+	@JsonIgnore
 	public Tweet getInReplyTo() {
 		return inReplyTo;
 	}
@@ -113,6 +117,7 @@ public class Tweet {
 		this.repostOf = repostOf;
 	}
 
+	@JsonIgnore
 	public Set<Tag> getHashtag() {
 		return hashtag;
 	}
@@ -121,6 +126,7 @@ public class Tweet {
 		this.hashtag = hashtag;
 	}
 
+	@JsonIgnore
 	public Set<TweetUser> getLikes() {
 		return likes;
 	}
@@ -129,6 +135,7 @@ public class Tweet {
 		this.likes = likes;
 	}
 
+	@JsonIgnore
 	public Set<TweetUser> getMentionedUsers() {
 		return mentionedUsers;
 	}
@@ -137,6 +144,7 @@ public class Tweet {
 		this.mentionedUsers = mentionedUsers;
 	}
 
+	@JsonIgnore
 	public List<Tweet> getReplies() {
 		return replies;
 	}

@@ -19,4 +19,6 @@ public interface TweetUserRepository extends JpaRepository<TweetUser, Integer>  
 	
 	TweetUser findByUsernameAndActiveTrue(String username);
 
+//	TweetUser findByUsernameAndPasswordAndActiveTrue(String username, String password);
+
 }

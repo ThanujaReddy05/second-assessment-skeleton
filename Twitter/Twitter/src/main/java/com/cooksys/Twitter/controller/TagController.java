@@ -1,6 +1,7 @@
 package com.cooksys.Twitter.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class TagController {
 	
 	
 	@GetMapping("tags/{label}")
-	public List<TweetDto> getTaggedTweets(@PathVariable String label){
+	public TagDto getTaggedTweets(@PathVariable String label){
 		return tagService.getTaggedTweets(label);
 	}
 }
