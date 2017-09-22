@@ -12,7 +12,6 @@ import com.cooksys.Twitter.entity.Tag;
 @Mapper(componentModel="spring")
 public interface TagMapper {
 
-//	public Tag toTag(Tag tag);
 	
 	public TagDto toTagDto(Tag tag);
 	
@@ -22,7 +21,6 @@ public interface TagMapper {
 
 	public Set<TagDto> toTagDto(Set<Tag> tag);
 
-//	public List<TweetDto> toTagDtos(Tag tag);
 	
 	
 }

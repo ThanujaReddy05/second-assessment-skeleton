@@ -42,9 +42,9 @@ import com.cooksys.Twitter.repository.TweetUserRepository;
 
 @Service
 public class TweetService {
-	
-	
-	
+
+
+
 	private TweetRepository tweetRepo;
 	private TweetMapper tweetMapper;
 	private TweetRequestMapper tweetRequestMapper;
@@ -55,8 +55,8 @@ public class TweetService {
 	private TagMapper tagMapper;
 	private ContextMapper contexMapper;
 	private CredentialMapper credentialMapper;
-	
-	
+
+
 
 	public TweetService(TweetRepository tweetRepo, CredentilasRepository credentilRepo, TagRepository tagRepo,TweetMapper tweetMapper,TweetRequestMapper tweetRequestMapper,TweetUserRepository userRepo,TagMapper tagMapper,TweetUserMapper userMapper,ContextMapper contexMapper,CredentialMapper credentialMapper) {
 		this.tweetRepo = tweetRepo;
@@ -69,10 +69,7 @@ public class TweetService {
 		this.userMapper = userMapper;
 		this.contexMapper = contexMapper;
 		this.credentialMapper = credentialMapper;
-		
-		
-		
-		
+
 	}
 
 	public List<TweetDto> GetTweets() {
@@ -83,69 +80,65 @@ public class TweetService {
 		Tweet simpleTweet = new Tweet();
 		Credential credential = tweetRequestDto.getCredential();
 		TweetUser author = userRepo.findByUsername(credential.getUsername());
-//		TweetRequest tweetToAdd = tweetRequestMapper.toTweetRequest(tweetRequestDto);
-//		TweetUser author = (TweetUser)credentilRepo.findByUsernameAndPasswordAndActiveTrue(tweetRequestDto.getCredential().getUsername(), tweetRequestDto.getCredential().getPassword());
-		
-		if(author != null){		
-			
+
+		if(author != null){	
 			simpleTweet.setContent(tweetRequestDto.getContent());
 			simpleTweet.setAuthor(author);
 			simpleTweet.setActive(true);
-		
+
 			Date date = new Date();
 			simpleTweet.setPosted(date.getTime());
 			tweetRepo.saveAndFlush(simpleTweet);
-			
-		//Update any tags/mentions in new tweet
+
+			//Update any tags/mentions in new tweet
 			createTags(tweetRequestDto.getContent(), simpleTweet.getId());
 			createMentions(tweetRequestDto.getContent(), simpleTweet.getId());
-			
+
 			return tweetMapper.toTweetDto(simpleTweet);
 		}
-		
 		return null;
-		
 	}
+
 
 	
 	public TweetDto getTweet(Integer id) {
 		return tweetMapper.toTweetDto(tweetRepo.findByIdAndActiveTrue(id));
 	}
-	
-	
-@Transactional
+
+
+	@Transactional
 	public TweetDto deleteTweet(Integer id, CredentialDto credentialDto) {
 		Tweet tweetToDelete = tweetRepo.findById(id);
 		if(tweetToDelete.getAuthor().getCredential().getUsername().equals(credentialDto.getUsername())){
 			if(tweetToDelete.getAuthor().getCredential().getPassword().equals(credentialDto.getPassword())){
 				tweetToDelete.setActive(false);
-				return tweetMapper.toTweetDto(tweetRepo.saveAndFlush(tweetToDelete));
+				tweetRepo.saveAndFlush(tweetToDelete);
+				return tweetMapper.toTweetDto(tweetToDelete);
 			}
 		}
-		
+
 		return null;
-		
 	}
 
+	
 	public void tweetLike(Integer id,CredentialDto credentialDto) {
 		Tweet tweetToLike = tweetRepo.findById(id);
 		TweetUser user = userRepo.findByUsername(credentialDto.getUsername());
 		if(user != null){
 			tweetToLike.getLikes().add(user);
 			user.getLikedTweets().add(tweetToLike);
-			
+
 			tweetRepo.saveAndFlush(tweetToLike);
 			userRepo.saveAndFlush(user);
-		
-			
 		}
-		
+
 	}
 
+	
 	public TweetDto tweetReply(Integer id,TweetRequestDto tweetRequestDto) {
 		Tweet originalTweet = tweetRepo.findByIdAndActiveTrue(id);
 		Tweet newTweet = tweetMapper.toTweet(postNewTweet(tweetRequestDto));
-		
+
 		if(originalTweet != null){	
 			TweetUser author = newTweet.getAuthor();
 			if(author.getCredential().getUsername().equals(tweetRequestDto.getCredential().getUsername())){
@@ -158,36 +151,34 @@ public class TweetService {
 		return null;
 	}
 
+	
 	public TweetDto tweetRepost(Integer id,CredentialDto credentialDto) {
 		Tweet tweet = tweetRepo.findByIdAndActiveTrue(id);
-		
+
 		if(tweet != null){				
 			TweetUser author = tweet.getAuthor();
-			
+
 			if(author.getCredential().getUsername().equals(credentialDto.getUsername())){
 				if(author.getCredential().getPassword().equals(credentialDto.getPassword())){
 					String content = tweet.getContent();
 					TweetRequest tweetRequest = new TweetRequest(credentialMapper.toCredential(credentialDto), content);
 					TweetDto repost = postNewTweet(tweetRequestMapper.toDto(tweetRequest));
-					tweetMapper.toTweet(repost).setRepostOf(tweet);
-//					tweet.getReposts().add(tweet);
-//					tweet.setRepostOf(tweet);
+					tweetMapper.toTweet(repost).setRepostOf(tweet);					
 					Tweet newp = tweetMapper.toTweet(repost);
-					 tweetRepo.saveAndFlush(newp);
-					 return repost;
+					tweetRepo.saveAndFlush(newp);
+					return repost;
+				}
 			}
-		}
-				
 		}
 		return null;
 	}
 
+	
 	public Set<TweetUserDto> getLikedUsers(Integer id) {
 		Tweet tweet = tweetRepo.findByIdAndActiveTrue(id);
 		if(tweet != null){			
 			return getActiveUsers(tweet.getLikes());
 		}
-		
 		return null;
 	}
 
@@ -197,15 +188,15 @@ public class TweetService {
 			return getActiveTweets(tweet.getReplies());
 		}
 		return null;
-		
 	}
 
-	public List<TweetDto> getTweetRepost(Integer id) {
+	
+		public List<TweetDto> getTweetRepost(Integer id) {
 		Tweet tweet = tweetRepo.findByIdAndActiveTrue(id);
 		if(tweet != null){	
 			return getActiveTweets(tweet.getReposts());
 		}
-		
+
 		return null;
 	}
 
@@ -217,16 +208,16 @@ public class TweetService {
 		return null;
 	}
 
-	
+
 
 	public ContextDto getContext(Integer id) {
 		Context context = new Context();
 		Tweet tweet = tweetRepo.findByIdAndActiveTrue(id);
 		Tweet target = tweet;
-		
+
 		if(tweet != null){
 			context.setTarget(tweet);
-			
+
 			//Get Before tweet chain
 			List<Tweet> before = new ArrayList();
 			while(tweet.getInReplyTo() != null){
@@ -238,38 +229,27 @@ public class TweetService {
 			}
 			Collections.reverse(before);
 			context.setBefore(before);
-			
+
 			//Get After tweet chain
 			List<Tweet> after = new ArrayList();
 			List<Tweet> replies = repliesOfReplies(target,after);
 			context.setAfter(replies);
-			
+
 			return contexMapper.toContextDto(context);
 		}
 		return null;
 	}	
-			
-		
+
+
 	public Set<TagDto> getTags(Integer id) {
 		Tweet tweet = tweetRepo.findByIdAndActiveTrue(id);
 		if(tweet != null){	
 			return tagMapper.toTagDto(tweet.getHashtag());
 		}
 		return null;
-		
-	}
-
-	//Private method to get all active tweets for a single tweet
-	private List<TweetDto> getActiveTweets(List<Tweet> tweetList){
-		List<Tweet> activeTweets = new ArrayList();
-		tweetList.forEach(tweetI -> {
-				if(tweetI.isActive()){
-					activeTweets.add(tweetI);
-				}
-			});
-		return tweetMapper.toTweetDtos(activeTweets);	
 
 	}
+	
 	
 	
 	/**
@@ -277,31 +257,43 @@ public class TweetService {
 	 * Private Methods	 
 	 * 	 
 	 **/
-	
-	
+
+
+	//Private method to get all active tweets for a single tweet
+	private List<TweetDto> getActiveTweets(List<Tweet> tweetList){
+		List<Tweet> activeTweets = new ArrayList();
+		tweetList.forEach(tweetI -> {
+			if(tweetI.isActive()){
+				activeTweets.add(tweetI);
+			}
+		});
+		return tweetMapper.toTweetDtos(activeTweets);	
+
+	}
+
+
+
 	//Private method to get all active users for a single tweet
 	private Set<TweetUserDto> getActiveUsers(Set<TweetUser> mentionedUsers) {
 		Set<TweetUser> activeUsersForTweet = new HashSet();
 		activeUsersForTweet.forEach(user -> {
-				if(user.isActive()){
-					activeUsersForTweet.add(user);
-				}
-			});
+			if(user.isActive()){
+				activeUsersForTweet.add(user);
+			}
+		});
 		return userMapper.toSetDtos(activeUsersForTweet);	
 	}
-	
-	
-	
+
+
 	private void createMentions(String content, Integer id) {
-		
 		Pattern tagPattern = Pattern.compile("@(\\w+)");
 		Matcher matcher = tagPattern.matcher(content);
 		List<String> mentions = new ArrayList();
-		
+
 		while(matcher.find()){
 			mentions.add(matcher.group(1));
 		}
-		
+
 		for(String mention : mentions){
 			Tweet tweet = tweetRepo.findById(id);
 			TweetUser user = userRepo.findByUsername(mention);
@@ -314,11 +306,11 @@ public class TweetService {
 		Pattern tagPattern = Pattern.compile("#(\\w+)");
 		Matcher matcher = tagPattern.matcher(content);
 		List<String> Hashtags = new ArrayList();
-		
+
 		while(matcher.find()){
 			Hashtags.add(matcher.group(1));
 		}
-		
+
 		for(String tag : Hashtags){
 			Date date = new Date(0);
 			Tag t = tagRepo.findByLabel(tag);
@@ -328,40 +320,36 @@ public class TweetService {
 				Tag newTag = new Tag(tag.toLowerCase(), date.getTime(),date.getTime(),tweetList);
 				newTag.getTweets().add(tweet);
 				tagRepo.saveAndFlush(newTag);
-				
-			}else
-			{
+
+			}else{
 				t.setLastUsed(date.getTime());
 				t.getTweets().add(tweet);
 				tagRepo.saveAndFlush(t);
 			}
 		}
-		
 	}
 
+	
 	private List<Tweet> repliesOfReplies(Tweet target, List<Tweet> after) {
 		for(Tweet tweet : target.getReplies()){
 			if(!tweet.getReplies().isEmpty()){
 				after.add(tweet);
-				 repliesOfReplies(tweet, after);
+				repliesOfReplies(tweet, after);
 			}
-			else
-			{
-				 after.add(tweet);
-				
+			else{
+				after.add(tweet);
 			}
-			
 		}
-	
-	Comparator<Tweet> comparator = new Comparator<Tweet>(){
-		@Override
-		public int compare(Tweet t1, Tweet t2){
-			return (int) (t1.getPosted() - t2.getPosted());
-		}
-	};	
-	
-	Collections.sort(after, comparator);
-	return after;
-}
+
+		Comparator<Tweet> comparator = new Comparator<Tweet>(){
+			@Override
+			public int compare(Tweet t1, Tweet t2){
+				return (int) (t1.getPosted() - t2.getPosted());
+			}
+		};	
+
+		Collections.sort(after, comparator);
+		return after;
+	}
 
 }

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cooksys.Twitter.dto.CredentialDto;
 import com.cooksys.Twitter.dto.TweetDto;
-import com.cooksys.Twitter.dto.TweetUserDisplayDto;
 import com.cooksys.Twitter.dto.TweetUserDto;
 import com.cooksys.Twitter.mapper.TweetUserMapper;
 import com.cooksys.Twitter.service.TweetUserService;

@@ -30,13 +30,11 @@ public class TweetController {
 	private TweetService tweetService;
 	private TweetMapper tweetMapper;
 	private TagService tagService;
-//	private TweetController contextService;
 
 	public TweetController(TweetService tweetService,TweetMapper tweetMapper,TagService tagService) {
 	this.tweetService = tweetService;
 	this.tweetMapper = tweetMapper;
 	this.tagService = tagService;
-//	this.contextService = contextService;
 	}
 	
 	@GetMapping

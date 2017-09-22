@@ -21,7 +21,7 @@ public interface TweetRepository extends JpaRepository<Tweet, Integer> {
 	
 	Tweet saveAndFlush(Tweet tweet);
 
-//	Set<Tag> findByLabel(String label);
+
 	 
 	
 	

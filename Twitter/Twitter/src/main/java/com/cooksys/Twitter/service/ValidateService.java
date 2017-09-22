@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.cooksys.Twitter.controller.TagController;
 import com.cooksys.Twitter.controller.TweetUserController;
 import com.cooksys.Twitter.mapper.TweetUserMapper;
+import com.cooksys.Twitter.repository.TweetUserRepository;
 
 @Service
 public class ValidateService {
@@ -13,12 +14,14 @@ public class ValidateService {
 	private TweetUserController userController;
 	private TweetUserService userService;
 	private TweetUserMapper userMapper;
+	private TweetUserRepository userRepo;
 	
-	public ValidateService(TagController tagsController, TweetUserController userController, TweetUserService userService,TweetUserMapper userMapper) {
+	public ValidateService(TagController tagsController, TweetUserController userController, TweetUserService userService,TweetUserMapper userMapper,TweetUserRepository userRepo) {
 		this.tagsController = tagsController;
 		this.userController = userController;
 		this.userService = userService;
 		this.userMapper = userMapper;
+		this.userRepo = userRepo;
 	}
 
 	public boolean tagExists(String label) {
@@ -26,11 +29,11 @@ public class ValidateService {
 	}
 
 	public boolean userExists(String username) {
-		return (userMapper.toUser(userService.getUser(username)).isActive() == true)? true : false;
+		return (userRepo.findByUsernameAndActiveTrue(username) != null)? false : true;
 	}
 
 	public boolean isUsernameAvailable(String username) {
-		return (userController.getUser(username) != null)? false : true;
+		return (userRepo.findByUsernameAndActiveTrue(username) != null)? true :false ;
 	}
 	
 	

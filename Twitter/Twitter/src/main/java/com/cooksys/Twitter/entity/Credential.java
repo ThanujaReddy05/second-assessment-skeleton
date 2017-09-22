@@ -19,9 +19,7 @@ public class Credential {
 	private Integer id;	
 	private String username;
 	private String password;
-	
-	@Column(nullable = false)
-	private boolean active;
+
 		
 	/*
 	 * Getters and Setters
@@ -45,13 +43,7 @@ public class Credential {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public boolean isActive() {
-		return active;
-	}
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-	
+
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

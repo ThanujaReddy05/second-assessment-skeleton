@@ -25,8 +25,6 @@ public class TweetUserDto {
 	private Integer id;
 	private String username;
 	private Profile profile;
-//	private Timestamp joined;
-	
 	
 	
 	public Credential getCredential() {

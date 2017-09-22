@@ -19,11 +19,11 @@ public class ValidateController {
 	}
 	
 	
-//	@GetMapping("tag/exists/{label}")
-//	public boolean tagExists(@PathVariable String label){
-//		return validateService.tagExists(label);
-//		
-//	}
+	@GetMapping("tag/exists/{label}")
+	public boolean tagExists(@PathVariable String label){
+		return validateService.tagExists(label);
+		
+	}
 	
 	
 	@GetMapping("username/exists/{username}")
